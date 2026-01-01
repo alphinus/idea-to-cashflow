@@ -794,7 +794,7 @@
     "complexity": "complex",
     "estimated_turns": 35,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F041",
