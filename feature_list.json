@@ -133,7 +133,7 @@
     "complexity": "simple",
     "estimated_turns": 8,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F008",
@@ -153,7 +153,7 @@
     "complexity": "simple",
     "estimated_turns": 10,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F009",
@@ -173,7 +173,7 @@
     "complexity": "medium",
     "estimated_turns": 15,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F010",
@@ -193,7 +193,7 @@
     "complexity": "simple",
     "estimated_turns": 10,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F011",
@@ -212,7 +212,7 @@
     "complexity": "simple",
     "estimated_turns": 8,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F012",
@@ -232,7 +232,7 @@
     "complexity": "simple",
     "estimated_turns": 10,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F013",
@@ -251,7 +251,7 @@
     "complexity": "simple",
     "estimated_turns": 10,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F014",
@@ -271,7 +271,7 @@
     "complexity": "simple",
     "estimated_turns": 10,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F015",
@@ -290,7 +290,7 @@
     "complexity": "simple",
     "estimated_turns": 8,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F016",
@@ -307,7 +307,7 @@
     "complexity": "simple",
     "estimated_turns": 10,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F017",
@@ -324,7 +324,7 @@
     "complexity": "medium",
     "estimated_turns": 12,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F018",
@@ -341,7 +341,7 @@
     "complexity": "medium",
     "estimated_turns": 15,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F019",
@@ -357,7 +357,7 @@
     "complexity": "simple",
     "estimated_turns": 10,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F020",
@@ -374,7 +374,7 @@
     "complexity": "simple",
     "estimated_turns": 10,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F021",
@@ -395,7 +395,7 @@
     "complexity": "complex",
     "estimated_turns": 30,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F022",
@@ -414,7 +414,7 @@
     "complexity": "simple",
     "estimated_turns": 10,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F023",
@@ -431,7 +431,7 @@
     "complexity": "simple",
     "estimated_turns": 8,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F024",
@@ -448,7 +448,7 @@
     "complexity": "simple",
     "estimated_turns": 10,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F025",
@@ -468,7 +468,7 @@
     "complexity": "medium",
     "estimated_turns": 15,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F026",
@@ -485,7 +485,7 @@
     "complexity": "simple",
     "estimated_turns": 12,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F027",
@@ -504,7 +504,7 @@
     "complexity": "medium",
     "estimated_turns": 20,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F028",
@@ -524,7 +524,7 @@
     "complexity": "medium",
     "estimated_turns": 15,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F029",
@@ -564,7 +564,7 @@
     "complexity": "complex",
     "estimated_turns": 25,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F031",
@@ -586,7 +586,7 @@
     "complexity": "medium",
     "estimated_turns": 20,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F032",
@@ -628,7 +628,7 @@
     "complexity": "medium",
     "estimated_turns": 20,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F034",
@@ -652,7 +652,7 @@
     "complexity": "complex",
     "estimated_turns": 30,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F035",
@@ -816,7 +816,7 @@
     "complexity": "medium",
     "estimated_turns": 20,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F042",
@@ -836,7 +836,7 @@
     "complexity": "medium",
     "estimated_turns": 18,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F043",
@@ -1412,7 +1412,7 @@
     "complexity": "simple",
     "estimated_turns": 8,
     "model": "opus",
-    "passes": false
+    "passes": true
   },
   {
     "id": "F071",
