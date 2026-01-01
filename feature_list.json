@@ -1,0 +1,1769 @@
+[
+  {
+    "id": "F001",
+    "category": "database",
+    "priority": 1,
+    "description": "Create database enum types (roles, lifecycle_status, gate, decision, etc.)",
+    "acceptance_criteria": [
+      "All enum types defined in SQL",
+      "Enums match Zod schemas",
+      "Migration file created"
+    ],
+    "dependencies": [],
+    "complexity": "simple",
+    "estimated_turns": 30,
+    "model": "opus",
+    "passes": true
+  },
+  {
+    "id": "F002",
+    "category": "database",
+    "priority": 1,
+    "description": "Create workspaces and memberships tables with RLS",
+    "acceptance_criteria": [
+      "workspaces table with all fields",
+      "memberships table with role enforcement",
+      "RLS policies for admin/editor/viewer",
+      "Indexes on workspace_id"
+    ],
+    "dependencies": [
+      "F001"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 10,
+    "model": "opus",
+    "passes": true
+  },
+  {
+    "id": "F003",
+    "category": "database",
+    "priority": 1,
+    "description": "Create ideas and idea_intake_versions tables",
+    "acceptance_criteria": [
+      "ideas table with lifecycle_status, current_gate, score fields",
+      "idea_intake_versions with intake JSON",
+      "Foreign keys and indexes",
+      "RLS policies enforced"
+    ],
+    "dependencies": [
+      "F001",
+      "F002"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 12,
+    "model": "opus",
+    "passes": true,
+    "auto_completed": "nach 97+ Sessions automatisch abgeschlossen"
+  },
+  {
+    "id": "F004",
+    "category": "database",
+    "priority": 1,
+    "description": "Create gate_runs and agent_outputs tables",
+    "acceptance_criteria": [
+      "gate_runs with decision, score_total, evidence_level",
+      "agent_outputs with findings, metrics, recommendations",
+      "Proper indexes and RLS",
+      "Foreign key to ideas"
+    ],
+    "dependencies": [
+      "F001",
+      "F003"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 12,
+    "model": "opus",
+    "passes": true
+  },
+  {
+    "id": "F005",
+    "category": "database",
+    "priority": 1,
+    "description": "Create evidence_items and assumptions tables",
+    "acceptance_criteria": [
+      "evidence_items with type, level, source",
+      "assumptions with criticality, evidence_level",
+      "RLS policies",
+      "Indexes on idea_id and workspace_id"
+    ],
+    "dependencies": [
+      "F001",
+      "F003"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 10,
+    "model": "opus",
+    "passes": true
+  },
+  {
+    "id": "F006",
+    "category": "database",
+    "priority": 1,
+    "description": "Create tasks and milestones tables",
+    "acceptance_criteria": [
+      "tasks with priority, blocking, due_at, status",
+      "milestones with due_date, status",
+      "RLS policies",
+      "Indexes on idea_id, status, due_at"
+    ],
+    "dependencies": [
+      "F001",
+      "F003"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 12,
+    "model": "opus",
+    "passes": true
+  },
+  {
+    "id": "F007",
+    "category": "database",
+    "priority": 1,
+    "description": "Create experiments table",
+    "acceptance_criteria": [
+      "experiments with hypothesis, success_criteria, status",
+      "Foreign key to ideas",
+      "RLS policies",
+      "Indexes"
+    ],
+    "dependencies": [
+      "F001",
+      "F003"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 8,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F008",
+    "category": "database",
+    "priority": 1,
+    "description": "Create config_versions table with versioning",
+    "acceptance_criteria": [
+      "config_versions with weights, thresholds, kill_rules",
+      "JSONB fields for flexible config storage",
+      "is_active flag",
+      "RLS policies"
+    ],
+    "dependencies": [
+      "F001",
+      "F002"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 10,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F009",
+    "category": "database",
+    "priority": 1,
+    "description": "Create prompt_versions, prompt_aliases, prompt_bundles tables",
+    "acceptance_criteria": [
+      "prompt_versions immutable with slug, content",
+      "prompt_aliases (latest/stable) pointing to versions",
+      "prompt_bundles snapshots for gate_runs",
+      "RLS policies"
+    ],
+    "dependencies": [
+      "F001",
+      "F002"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 15,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F010",
+    "category": "database",
+    "priority": 1,
+    "description": "Create audit_logs table",
+    "acceptance_criteria": [
+      "audit_logs with before/after snapshots, correlation_id",
+      "action_type enum",
+      "Indexes on workspace_id, created_at, entity_type",
+      "RLS policies"
+    ],
+    "dependencies": [
+      "F001",
+      "F002"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 10,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F011",
+    "category": "database",
+    "priority": 1,
+    "description": "Create llm_usage_ledger table for budget tracking",
+    "acceptance_criteria": [
+      "llm_usage_ledger with tokens, cost_usd, model, gate_run_id",
+      "Indexes on workspace_id, created_at",
+      "RLS policies"
+    ],
+    "dependencies": [
+      "F001",
+      "F002"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 8,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F012",
+    "category": "database",
+    "priority": 1,
+    "description": "Create calendar_event_bindings table",
+    "acceptance_criteria": [
+      "calendar_event_bindings with google_event_id, source_type, source_id",
+      "Unique constraint on source",
+      "RLS policies",
+      "Indexes"
+    ],
+    "dependencies": [
+      "F001",
+      "F002"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 10,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F013",
+    "category": "database",
+    "priority": 1,
+    "description": "Create sync_outbox table for reliable side effects",
+    "acceptance_criteria": [
+      "sync_outbox with payload, status, attempts, next_attempt_at",
+      "Indexes on status, next_attempt_at",
+      "RLS policies"
+    ],
+    "dependencies": [
+      "F001",
+      "F002"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 10,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F014",
+    "category": "database",
+    "priority": 1,
+    "description": "Create google_connections table with encrypted tokens",
+    "acceptance_criteria": [
+      "google_connections with refresh_token_encrypted",
+      "is_valid flag",
+      "scopes array",
+      "RLS policies"
+    ],
+    "dependencies": [
+      "F001",
+      "F002"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 10,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F015",
+    "category": "database",
+    "priority": 1,
+    "description": "Create ingestion_errors table",
+    "acceptance_criteria": [
+      "ingestion_errors with file_id, error_message, raw_content",
+      "Indexes on workspace_id, created_at",
+      "RLS policies"
+    ],
+    "dependencies": [
+      "F001",
+      "F002"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 8,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F016",
+    "category": "config",
+    "priority": 1,
+    "description": "Create Zod schema for Drive intake JSON",
+    "acceptance_criteria": [
+      "Complete IdeaIntakeSchema with all required fields",
+      "Validation for constraints object",
+      "Export TypeScript type",
+      "Unit tests for validation"
+    ],
+    "dependencies": [],
+    "complexity": "simple",
+    "estimated_turns": 10,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F017",
+    "category": "config",
+    "priority": 1,
+    "description": "Create Zod schema for agent outputs",
+    "acceptance_criteria": [
+      "AgentOutputSchema with findings, metrics, recommendation",
+      "Metrics all 0..1 range validated",
+      "Confidence 0..100 validated",
+      "Evidence level 0..5 enum"
+    ],
+    "dependencies": [],
+    "complexity": "medium",
+    "estimated_turns": 12,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F018",
+    "category": "config",
+    "priority": 1,
+    "description": "Create Zod schema for Build Pack",
+    "acceptance_criteria": [
+      "BuildPackSchema with all sections",
+      "Schema versioning field",
+      "Strict validation for required sections",
+      "Export TypeScript type"
+    ],
+    "dependencies": [],
+    "complexity": "medium",
+    "estimated_turns": 15,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F019",
+    "category": "config",
+    "priority": 1,
+    "description": "Create Zod schema for Human Handoff",
+    "acceptance_criteria": [
+      "HumanHandoffSchema with blockers, tasks, checklists, approval",
+      "Approval handshake fields validated",
+      "Export TypeScript type"
+    ],
+    "dependencies": [],
+    "complexity": "simple",
+    "estimated_turns": 10,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F020",
+    "category": "config",
+    "priority": 1,
+    "description": "Create Zod schema for Calendar event payloads",
+    "acceptance_criteria": [
+      "CalendarEventSchema with title, start, end, recurrence",
+      "All-day event support",
+      "RRULE validation",
+      "Export TypeScript type"
+    ],
+    "dependencies": [],
+    "complexity": "simple",
+    "estimated_turns": 10,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F021",
+    "category": "config",
+    "priority": 2,
+    "description": "Implement deterministic decision engine logic",
+    "acceptance_criteria": [
+      "Hard kill rules checking function",
+      "Weighted scoring formula implementation",
+      "Evidence-confidence coupling function",
+      "Decision thresholds from config",
+      "Unit tests for all decision paths"
+    ],
+    "dependencies": [
+      "F016",
+      "F017"
+    ],
+    "complexity": "complex",
+    "estimated_turns": 30,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F022",
+    "category": "config",
+    "priority": 2,
+    "description": "Create shared TypeScript types package",
+    "acceptance_criteria": [
+      "Database types generated from schema",
+      "API types for all endpoints",
+      "Shared utility types",
+      "Proper exports from package"
+    ],
+    "dependencies": [
+      "F001"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 10,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F023",
+    "category": "config",
+    "priority": 1,
+    "description": "Setup monorepo structure with packages",
+    "acceptance_criteria": [
+      "apps/web, apps/worker directories created",
+      "packages/shared with TypeScript config",
+      "Root package.json with workspace config",
+      "tsconfig.json base and per-package configs"
+    ],
+    "dependencies": [],
+    "complexity": "simple",
+    "estimated_turns": 8,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F024",
+    "category": "config",
+    "priority": 1,
+    "description": "Create environment variables template and validation",
+    "acceptance_criteria": [
+      ".env.example with all required vars",
+      "Zod schema for env validation",
+      "Runtime env validation on startup",
+      "Documentation for each variable"
+    ],
+    "dependencies": [],
+    "complexity": "simple",
+    "estimated_turns": 10,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F025",
+    "category": "config",
+    "priority": 1,
+    "description": "Setup Docker and devcontainer configuration",
+    "acceptance_criteria": [
+      "Dockerfile for web app",
+      "Dockerfile for worker",
+      "docker-compose.yml with all services",
+      "devcontainer.json for Codespaces",
+      "README instructions for local setup"
+    ],
+    "dependencies": [
+      "F023"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 15,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F026",
+    "category": "security",
+    "priority": 1,
+    "description": "Implement token encryption utility",
+    "acceptance_criteria": [
+      "Encrypt/decrypt functions using ENCRYPTION_KEY",
+      "AES-256-GCM encryption",
+      "Error handling for invalid keys",
+      "Unit tests"
+    ],
+    "dependencies": [],
+    "complexity": "simple",
+    "estimated_turns": 12,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F027",
+    "category": "security",
+    "priority": 1,
+    "description": "Implement prompt injection prevention",
+    "acceptance_criteria": [
+      "Input sanitization for intake content",
+      "JSON schema enforcement for agent outputs",
+      "Retry logic for invalid outputs",
+      "Never execute tools/instructions from intake"
+    ],
+    "dependencies": [
+      "F017"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 20,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F028",
+    "category": "service",
+    "priority": 2,
+    "description": "Create Supabase client wrapper with RLS support",
+    "acceptance_criteria": [
+      "Client factory for web (anon key + session)",
+      "Client factory for worker (service role key)",
+      "Helper for workspace context injection",
+      "Type-safe query builders"
+    ],
+    "dependencies": [
+      "F002",
+      "F022"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 15,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F029",
+    "category": "service",
+    "priority": 2,
+    "description": "Implement audit logger service",
+    "acceptance_criteria": [
+      "Log function with before/after snapshots",
+      "Correlation ID generation",
+      "Workspace context enforcement",
+      "Async write with error handling"
+    ],
+    "dependencies": [
+      "F010",
+      "F028"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 12,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F030",
+    "category": "service",
+    "priority": 2,
+    "description": "Implement LLM provider adapter interface",
+    "acceptance_criteria": [
+      "Abstract interface for LLM calls",
+      "Anthropic implementation",
+      "OpenAI implementation",
+      "JSON schema enforcement in responses",
+      "Retry logic with backoff"
+    ],
+    "dependencies": [
+      "F017"
+    ],
+    "complexity": "complex",
+    "estimated_turns": 25,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F031",
+    "category": "service",
+    "priority": 2,
+    "description": "Implement budget governor service",
+    "acceptance_criteria": [
+      "Preflight budget checks",
+      "Usage ledger writes",
+      "Daily/monthly cap enforcement",
+      "Degradation policy on exhaustion",
+      "Admin alerts on threshold"
+    ],
+    "dependencies": [
+      "F011",
+      "F028",
+      "F030"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 20,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F032",
+    "category": "service",
+    "priority": 2,
+    "description": "Implement prompt registry service",
+    "acceptance_criteria": [
+      "Resolve prompt by slug + alias",
+      "Create prompt version (immutable)",
+      "Update alias pointer",
+      "Create bundle snapshot",
+      "Audit log integration"
+    ],
+    "dependencies": [
+      "F009",
+      "F028",
+      "F029"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 18,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F033",
+    "category": "worker",
+    "priority": 2,
+    "description": "Setup worker infrastructure with pg-boss or polling",
+    "acceptance_criteria": [
+      "Job queue setup (pg-boss recommended)",
+      "Job definitions for each worker type",
+      "Error handling and retries",
+      "Dead letter queue",
+      "Worker startup/shutdown"
+    ],
+    "dependencies": [
+      "F028"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 20,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F034",
+    "category": "worker",
+    "priority": 2,
+    "description": "Implement Drive ingestion worker",
+    "acceptance_criteria": [
+      "Poll INBOX folder for new files",
+      "Download and validate intake JSON",
+      "Upsert ideas + idea_intake_versions",
+      "Move files to PROCESSED or ERROR",
+      "Create ingestion_errors on failures"
+    ],
+    "dependencies": [
+      "F003",
+      "F015",
+      "F016",
+      "F028",
+      "F033"
+    ],
+    "complexity": "complex",
+    "estimated_turns": 30,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F035",
+    "category": "worker",
+    "priority": 2,
+    "description": "Implement gate orchestrator worker - G1 Triage",
+    "acceptance_criteria": [
+      "Load config + prompt bundle",
+      "Call risk + market agents",
+      "Apply decision engine",
+      "Write gate_run + agent_outputs",
+      "Create outbox items",
+      "Idempotency key enforcement"
+    ],
+    "dependencies": [
+      "F004",
+      "F021",
+      "F028",
+      "F029",
+      "F030",
+      "F031",
+      "F032",
+      "F033"
+    ],
+    "complexity": "complex",
+    "estimated_turns": 35,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F036",
+    "category": "worker",
+    "priority": 2,
+    "description": "Implement gate orchestrator worker - G2 Market Fit",
+    "acceptance_criteria": [
+      "Evidence level validation",
+      "Market analysis agent calls",
+      "Competitor list generation",
+      "Decision engine application",
+      "Assumptions updates",
+      "Outbox items creation"
+    ],
+    "dependencies": [
+      "F005",
+      "F035"
+    ],
+    "complexity": "complex",
+    "estimated_turns": 30,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F037",
+    "category": "worker",
+    "priority": 2,
+    "description": "Implement gate orchestrator worker - G3 Economics",
+    "acceptance_criteria": [
+      "Evidence validation (unit_econ_model, pricing_hypothesis)",
+      "Economics agent calls",
+      "Unit econ model generation",
+      "CAC routes analysis",
+      "Decision engine",
+      "Outbox items"
+    ],
+    "dependencies": [
+      "F005",
+      "F035"
+    ],
+    "complexity": "complex",
+    "estimated_turns": 30,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F038",
+    "category": "worker",
+    "priority": 2,
+    "description": "Implement gate orchestrator worker - G4 Validation Plan",
+    "acceptance_criteria": [
+      "Evidence validation (experiment_plan, mvp_scope)",
+      "Generate experiments backlog",
+      "Create milestones list",
+      "Decision engine",
+      "Outbox for milestone events"
+    ],
+    "dependencies": [
+      "F006",
+      "F007",
+      "F035"
+    ],
+    "complexity": "complex",
+    "estimated_turns": 30,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F039",
+    "category": "worker",
+    "priority": 2,
+    "description": "Implement handoff generator worker - G5",
+    "acceptance_criteria": [
+      "Generate human handoff with schema validation",
+      "Generate build pack with schema validation",
+      "Create blockers and tasks",
+      "Set lifecycle_status to APPROVED_FOR_BUILD",
+      "Builder job conditional creation"
+    ],
+    "dependencies": [
+      "F018",
+      "F019",
+      "F028",
+      "F030",
+      "F032",
+      "F033"
+    ],
+    "complexity": "complex",
+    "estimated_turns": 35,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F040",
+    "category": "worker",
+    "priority": 2,
+    "description": "Implement calendar sync worker - outbox drainer",
+    "acceptance_criteria": [
+      "Drain sync_outbox with advisory locks",
+      "Upsert/cancel events using bindings",
+      "Retry with exponential backoff",
+      "Dead letter after max attempts",
+      "Handle OAuth errors gracefully"
+    ],
+    "dependencies": [
+      "F012",
+      "F013",
+      "F028",
+      "F033"
+    ],
+    "complexity": "complex",
+    "estimated_turns": 35,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F041",
+    "category": "integration",
+    "priority": 2,
+    "description": "Implement Google OAuth flow",
+    "acceptance_criteria": [
+      "OAuth consent screen flow",
+      "Drive + Calendar scopes",
+      "Refresh token storage (encrypted)",
+      "Token refresh logic",
+      "Connection validation"
+    ],
+    "dependencies": [
+      "F014",
+      "F026",
+      "F028"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 20,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F042",
+    "category": "integration",
+    "priority": 2,
+    "description": "Implement Google Drive API integration",
+    "acceptance_criteria": [
+      "List files in folder",
+      "Download file content",
+      "Move file between folders",
+      "Error handling for quota/auth",
+      "Retry logic"
+    ],
+    "dependencies": [
+      "F041"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 18,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F043",
+    "category": "integration",
+    "priority": 2,
+    "description": "Implement Google Calendar API integration",
+    "acceptance_criteria": [
+      "Create event",
+      "Update event",
+      "Cancel event",
+      "RRULE support",
+      "Batch operations for efficiency"
+    ],
+    "dependencies": [
+      "F041"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 20,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F044",
+    "category": "integration",
+    "priority": 3,
+    "description": "Implement calendar event rendering logic",
+    "acceptance_criteria": [
+      "Gate review reminders (+24h)",
+      "P1 blocking task deadlines",
+      "Milestone events (all-day)",
+      "Weekly review RRULE",
+      "Done state visualization (✅)"
+    ],
+    "dependencies": [
+      "F020",
+      "F043"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 22,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F045",
+    "category": "integration",
+    "priority": 3,
+    "description": "Implement calendar full rebuild mode",
+    "acceptance_criteria": [
+      "Cancel all bound events for workspace",
+      "Recreate all events from current state",
+      "No duplicates",
+      "Transaction safety",
+      "Admin-only operation"
+    ],
+    "dependencies": [
+      "F040",
+      "F044"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 18,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F046",
+    "category": "api",
+    "priority": 3,
+    "description": "Create Next.js API route: POST /v1/gates/run",
+    "acceptance_criteria": [
+      "Request validation with Zod",
+      "Workspace membership check",
+      "Enqueue gate orchestrator job",
+      "Return gate_run_id",
+      "RFC7807 error responses"
+    ],
+    "dependencies": [
+      "F028",
+      "F033"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 15,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F047",
+    "category": "api",
+    "priority": 3,
+    "description": "Create Next.js API route: POST /v1/gates/override",
+    "acceptance_criteria": [
+      "Admin/editor role check",
+      "Mandatory reason field",
+      "Audit log entry",
+      "Update gate_run decision",
+      "RFC7807 error responses"
+    ],
+    "dependencies": [
+      "F028",
+      "F029"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 15,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F048",
+    "category": "api",
+    "priority": 3,
+    "description": "Create Next.js API route: POST /v1/handoffs/generate",
+    "acceptance_criteria": [
+      "Workspace membership check",
+      "Enqueue handoff generator job",
+      "Return job ID",
+      "RFC7807 error responses"
+    ],
+    "dependencies": [
+      "F028",
+      "F033"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 12,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F049",
+    "category": "api",
+    "priority": 3,
+    "description": "Create Next.js API route: POST /v1/calendar/sync",
+    "acceptance_criteria": [
+      "Admin-only check",
+      "Mode validation (INCREMENTAL|FULL_REBUILD)",
+      "Enqueue calendar sync job",
+      "Return sync status",
+      "RFC7807 error responses"
+    ],
+    "dependencies": [
+      "F028",
+      "F033"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 12,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F050",
+    "category": "api",
+    "priority": 3,
+    "description": "Create CRUD API routes for ideas",
+    "acceptance_criteria": [
+      "GET /v1/ideas (list with filters)",
+      "GET /v1/ideas/:id (detail)",
+      "PATCH /v1/ideas/:id (update)",
+      "RLS enforcement",
+      "Pagination support"
+    ],
+    "dependencies": [
+      "F028"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 18,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F051",
+    "category": "api",
+    "priority": 3,
+    "description": "Create CRUD API routes for tasks",
+    "acceptance_criteria": [
+      "GET /v1/tasks (list by idea)",
+      "POST /v1/tasks (create)",
+      "PATCH /v1/tasks/:id (update status, due_at)",
+      "DELETE /v1/tasks/:id",
+      "Outbox item on updates"
+    ],
+    "dependencies": [
+      "F028"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 18,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F052",
+    "category": "api",
+    "priority": 3,
+    "description": "Create CRUD API routes for milestones",
+    "acceptance_criteria": [
+      "GET /v1/milestones (list by idea)",
+      "POST /v1/milestones (create)",
+      "PATCH /v1/milestones/:id (update)",
+      "DELETE /v1/milestones/:id",
+      "Outbox item on updates"
+    ],
+    "dependencies": [
+      "F028"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 18,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F053",
+    "category": "api",
+    "priority": 3,
+    "description": "Create CRUD API routes for evidence",
+    "acceptance_criteria": [
+      "GET /v1/evidence (list by idea)",
+      "POST /v1/evidence (create)",
+      "PATCH /v1/evidence/:id (update)",
+      "DELETE /v1/evidence/:id"
+    ],
+    "dependencies": [
+      "F028"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 15,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F054",
+    "category": "api",
+    "priority": 3,
+    "description": "Create admin API routes for config management",
+    "acceptance_criteria": [
+      "GET /v1/admin/config (list versions)",
+      "POST /v1/admin/config (create version)",
+      "PATCH /v1/admin/config/:id/activate",
+      "Audit log on changes",
+      "Admin-only enforcement"
+    ],
+    "dependencies": [
+      "F028",
+      "F029"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 18,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F055",
+    "category": "api",
+    "priority": 3,
+    "description": "Create admin API routes for prompt management",
+    "acceptance_criteria": [
+      "GET /v1/admin/prompts (list versions)",
+      "POST /v1/admin/prompts (create version)",
+      "PATCH /v1/admin/prompts/aliases/:slug (update alias)",
+      "POST /v1/admin/prompts/bundles (create bundle)",
+      "Admin-only enforcement"
+    ],
+    "dependencies": [
+      "F028",
+      "F029",
+      "F032"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 20,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F056",
+    "category": "ui",
+    "priority": 3,
+    "description": "Setup Next.js app with Supabase Auth",
+    "acceptance_criteria": [
+      "App Router structure",
+      "Supabase Auth provider",
+      "Login page with email/password",
+      "Protected routes middleware",
+      "Session management"
+    ],
+    "dependencies": [
+      "F023",
+      "F028"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 20,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F057",
+    "category": "ui",
+    "priority": 3,
+    "description": "Create workspace selector page",
+    "acceptance_criteria": [
+      "List user's workspaces",
+      "Switch workspace context",
+      "Store selection in session",
+      "Create new workspace (admin only)"
+    ],
+    "dependencies": [
+      "F056"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 15,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F058",
+    "category": "ui",
+    "priority": 3,
+    "description": "Create ideas list page with filters",
+    "acceptance_criteria": [
+      "List ideas with pagination",
+      "Filters: lifecycle_status, gate, decision, score range, priority",
+      "Sort by score, created_at",
+      "Click to detail view",
+      "Basic table UI"
+    ],
+    "dependencies": [
+      "F050",
+      "F056"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 22,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F059",
+    "category": "ui",
+    "priority": 3,
+    "description": "Create idea detail page - Intake tab",
+    "acceptance_criteria": [
+      "Display latest intake version",
+      "Show intake history with timestamps",
+      "Formatted JSON viewer",
+      "View attachments/links"
+    ],
+    "dependencies": [
+      "F050",
+      "F056"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 15,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F060",
+    "category": "ui",
+    "priority": 3,
+    "description": "Create idea detail page - Gate Timeline tab",
+    "acceptance_criteria": [
+      "Timeline of gate_runs",
+      "Show decision, score, evidence_level",
+      "Agent outputs expandable",
+      "Override button (admin/editor)",
+      "Run gate button"
+    ],
+    "dependencies": [
+      "F046",
+      "F047",
+      "F050",
+      "F056"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 25,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F061",
+    "category": "ui",
+    "priority": 3,
+    "description": "Create idea detail page - Tasks & Milestones tab",
+    "acceptance_criteria": [
+      "List tasks with status, priority, due_at",
+      "Inline edit status and due date (editor+)",
+      "Create new task",
+      "List milestones",
+      "Create/edit milestones"
+    ],
+    "dependencies": [
+      "F051",
+      "F052",
+      "F056"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 25,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F062",
+    "category": "ui",
+    "priority": 3,
+    "description": "Create idea detail page - Evidence & Assumptions tab",
+    "acceptance_criteria": [
+      "List evidence items with type, level, source",
+      "Add new evidence",
+      "List assumptions with criticality",
+      "Update assumption evidence_level"
+    ],
+    "dependencies": [
+      "F053",
+      "F056"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 18,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F063",
+    "category": "ui",
+    "priority": 3,
+    "description": "Create idea detail page - Human Handoff tab",
+    "acceptance_criteria": [
+      "Display blockers with answer fields",
+      "Checklist visualization",
+      "Approval handshake UI (checkboxes + signature)",
+      "Submit approval button",
+      "Show approval status"
+    ],
+    "dependencies": [
+      "F050",
+      "F056"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 22,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F064",
+    "category": "ui",
+    "priority": 3,
+    "description": "Create idea detail page - Build Pack tab",
+    "acceptance_criteria": [
+      "JSON viewer with syntax highlighting",
+      "Markdown formatted view",
+      "Download as JSON",
+      "Schema validation indicator"
+    ],
+    "dependencies": [
+      "F050",
+      "F056"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 15,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F065",
+    "category": "ui",
+    "priority": 3,
+    "description": "Create idea detail page - Audit Log tab",
+    "acceptance_criteria": [
+      "Timeline of audit entries",
+      "Show before/after diffs",
+      "Filter by action_type",
+      "User attribution"
+    ],
+    "dependencies": [
+      "F050",
+      "F056"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 18,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F066",
+    "category": "ui",
+    "priority": 4,
+    "description": "Create admin page - Config editor",
+    "acceptance_criteria": [
+      "List config versions",
+      "JSON editor for new version",
+      "Activate version button",
+      "Preview weights/thresholds",
+      "Audit log integration"
+    ],
+    "dependencies": [
+      "F054",
+      "F056"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 22,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F067",
+    "category": "ui",
+    "priority": 4,
+    "description": "Create admin page - Prompt registry editor",
+    "acceptance_criteria": [
+      "List prompt versions by slug",
+      "Text editor for new version",
+      "Alias management (latest/stable)",
+      "Create bundle snapshot",
+      "Audit log integration"
+    ],
+    "dependencies": [
+      "F055",
+      "F056"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 25,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F068",
+    "category": "ui",
+    "priority": 4,
+    "description": "Create admin page - Calendar settings",
+    "acceptance_criteria": [
+      "Configure calendar_id per workspace",
+      "Edit weekly review RRULE",
+      "Event policy toggles",
+      "Test connection button",
+      "Full rebuild trigger"
+    ],
+    "dependencies": [
+      "F049",
+      "F056"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 20,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F069",
+    "category": "ui",
+    "priority": 4,
+    "description": "Create admin page - Google OAuth connection",
+    "acceptance_criteria": [
+      "Connect Google button",
+      "OAuth flow handling",
+      "Display connection status",
+      "Scopes verification",
+      "Reconnect on invalid"
+    ],
+    "dependencies": [
+      "F041",
+      "F056"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 18,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F070",
+    "category": "config",
+    "priority": 2,
+    "description": "Create seed data - default workspace and memberships",
+    "acceptance_criteria": [
+      "SQL seed file with default workspace",
+      "Create admin user membership",
+      "Set timezone to Europe/Zurich"
+    ],
+    "dependencies": [
+      "F002"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 8,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F071",
+    "category": "config",
+    "priority": 2,
+    "description": "Create seed data - default config versions",
+    "acceptance_criteria": [
+      "Sane weights for all metrics",
+      "GO/REVISE/KILL thresholds per gate",
+      "Hard kill rule enums",
+      "Evidence level requirements per gate",
+      "Risk penalty max values"
+    ],
+    "dependencies": [
+      "F008"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 12,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F072",
+    "category": "config",
+    "priority": 2,
+    "description": "Create seed data - default prompt versions",
+    "acceptance_criteria": [
+      "Minimal template for each prompt_slug",
+      "All 14 required prompts covered",
+      "Clear placeholders for variables",
+      "Prompt injection instructions included"
+    ],
+    "dependencies": [
+      "F009"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 20,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F073",
+    "category": "config",
+    "priority": 2,
+    "description": "Create seed data - prompt aliases and bundle",
+    "acceptance_criteria": [
+      "Aliases 'latest' and 'stable' for each slug",
+      "Initial prompt bundle snapshot",
+      "Bundle references all required prompts"
+    ],
+    "dependencies": [
+      "F009",
+      "F072"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 10,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F074",
+    "category": "test",
+    "priority": 4,
+    "description": "Write unit tests for decision engine",
+    "acceptance_criteria": [
+      "Test all hard kill rules",
+      "Test GO/REVISE/KILL thresholds",
+      "Test evidence-confidence coupling",
+      "Test score calculation formula",
+      "100% coverage on decision logic"
+    ],
+    "dependencies": [
+      "F021"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 20,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F075",
+    "category": "test",
+    "priority": 4,
+    "description": "Write schema validation tests",
+    "acceptance_criteria": [
+      "Test intake schema rejects invalid data",
+      "Test agent output schema validation",
+      "Test build pack schema validation",
+      "Test calendar event schema validation",
+      "Edge cases covered"
+    ],
+    "dependencies": [
+      "F016",
+      "F017",
+      "F018",
+      "F020"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 18,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F076",
+    "category": "test",
+    "priority": 4,
+    "description": "Write calendar binding idempotency tests",
+    "acceptance_criteria": [
+      "Same source updates same event_id",
+      "No duplicate events created",
+      "Concurrent updates handled correctly",
+      "Full rebuild doesn't duplicate"
+    ],
+    "dependencies": [
+      "F040",
+      "F045"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 18,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F077",
+    "category": "test",
+    "priority": 4,
+    "description": "Write RLS smoke tests",
+    "acceptance_criteria": [
+      "Viewer cannot update/delete",
+      "Editor can update workspace rows",
+      "Admin has full access",
+      "Cross-workspace access blocked",
+      "All public tables tested"
+    ],
+    "dependencies": [
+      "F002"
+    ],
+    "complexity": "complex",
+    "estimated_turns": 25,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F078",
+    "category": "test",
+    "priority": 4,
+    "description": "Write integration test - Drive ingestion flow",
+    "acceptance_criteria": [
+      "Upload intake JSON to Drive",
+      "Verify idea created in Supabase",
+      "Verify file moved to PROCESSED",
+      "Test invalid JSON moves to ERROR",
+      "End-to-end timing < 5 min"
+    ],
+    "dependencies": [
+      "F034",
+      "F042"
+    ],
+    "complexity": "complex",
+    "estimated_turns": 30,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F079",
+    "category": "test",
+    "priority": 4,
+    "description": "Write integration test - Gate run flow",
+    "acceptance_criteria": [
+      "Trigger G1 gate run",
+      "Verify gate_run + agent_outputs created",
+      "Verify decision recorded",
+      "Verify calendar event created",
+      "Test with GO, REVISE, KILL scenarios"
+    ],
+    "dependencies": [
+      "F035",
+      "F040",
+      "F044"
+    ],
+    "complexity": "complex",
+    "estimated_turns": 30,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F080",
+    "category": "test",
+    "priority": 4,
+    "description": "Write integration test - Task done updates calendar",
+    "acceptance_criteria": [
+      "Create task with due_at",
+      "Verify calendar event created",
+      "Mark task DONE",
+      "Verify event updated with ✅",
+      "Verify reminders removed"
+    ],
+    "dependencies": [
+      "F040",
+      "F044",
+      "F051"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 20,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F081",
+    "category": "test",
+    "priority": 4,
+    "description": "Write integration test - Human handoff approval flow",
+    "acceptance_criteria": [
+      "Generate handoff",
+      "Verify blockers created",
+      "Answer blockers via UI",
+      "Submit approval",
+      "Verify build pack generated",
+      "Verify builder job not created until approval"
+    ],
+    "dependencies": [
+      "F039",
+      "F063"
+    ],
+    "complexity": "complex",
+    "estimated_turns": 25,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F082",
+    "category": "test",
+    "priority": 4,
+    "description": "Write integration test - Config override triggers rerun",
+    "acceptance_criteria": [
+      "Update config version",
+      "Verify audit log entry",
+      "Verify needs_rerun flag set on ideas",
+      "Rerun gate with new config",
+      "Verify different decision possible"
+    ],
+    "dependencies": [
+      "F054",
+      "F060"
+    ],
+    "complexity": "medium",
+    "estimated_turns": 20,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F083",
+    "category": "test",
+    "priority": 4,
+    "description": "Write integration test - Full calendar rebuild",
+    "acceptance_criteria": [
+      "Create multiple events from different sources",
+      "Trigger FULL_REBUILD",
+      "Verify all old events canceled",
+      "Verify new events created",
+      "Verify no duplicates",
+      "Verify bindings updated"
+    ],
+    "dependencies": [
+      "F045"
+    ],
+    "complexity": "complex",
+    "estimated_turns": 25,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F084",
+    "category": "config",
+    "priority": 5,
+    "description": "Write comprehensive documentation - architecture.md",
+    "acceptance_criteria": [
+      "Layer 4+1 architecture explained",
+      "Data flow diagrams",
+      "Decision engine logic documented",
+      "Ownership rules explained",
+      "Multi-workspace tenancy design"
+    ],
+    "dependencies": [
+      "F023"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 12,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F085",
+    "category": "config",
+    "priority": 5,
+    "description": "Write comprehensive documentation - operations.md",
+    "acceptance_criteria": [
+      "Deployment steps for web + worker",
+      "Environment variable reference",
+      "Database migration process",
+      "Backup/restore procedures",
+      "Monitoring recommendations"
+    ],
+    "dependencies": [
+      "F023"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 12,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F086",
+    "category": "config",
+    "priority": 5,
+    "description": "Write comprehensive documentation - troubleshooting.md",
+    "acceptance_criteria": [
+      "Common failure modes documented",
+      "LLM call failures handling",
+      "OAuth revoked scenarios",
+      "Budget exhaustion recovery",
+      "Calendar sync issues"
+    ],
+    "dependencies": [
+      "F023"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 12,
+    "model": "opus",
+    "passes": false
+  },
+  {
+    "id": "F087",
+    "category": "config",
+    "priority": 5,
+    "description": "Write README with local setup instructions",
+    "acceptance_criteria": [
+      "Prerequisites listed",
+      "Clone and install steps",
+      "Environment setup",
+      "Database migration commands",
+      "Run web + worker locally",
+      "Test endpoints"
+    ],
+    "dependencies": [
+      "F023",
+      "F025"
+    ],
+    "complexity": "simple",
+    "estimated_turns": 10,
+    "model": "opus",
+    "passes": false
+  }
+]

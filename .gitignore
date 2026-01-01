@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Harness internal files (not needed in repo)
+.harness-status.json
+.harness-control.json
+.harness-parallel.json
+.harness-budget.json
+.harness-config.json
+.harness-logs/
+
+# Worktrees
+.worktree-*
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Supabase local
+supabase/.temp/
